@@ -13,3 +13,7 @@ class Settings:
 
         # Ship settings
         self.ship_ymove = 1
+
+        # Bullet settings
+        self.sb_width = 15
+        self.sb_height = 3
