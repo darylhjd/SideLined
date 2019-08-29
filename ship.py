@@ -13,13 +13,15 @@ class Ship:
         self.screen = screen
         self.screen_rect = self.screen.get_rect()
 
-        # Image properties
+        # Image
         self.image = pygame.transform.rotozoom(pygame.image.load(r"images/ship.bmp"), 270, 0.2)
+
+        # Position ship
         self.rect = self.image.get_rect()
         self.rect.centery = self.screen_rect.centery
         self.centery = float(self.rect.centery)
 
-        # Movement flags
+        # Movement flags and properties
         self.move_up = False
         self.move_down = False
 
