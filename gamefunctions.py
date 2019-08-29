@@ -50,6 +50,14 @@ def check_events(screen, settings, ship, bullets):
             when_keyup(ship, event)
 
 
+def create_rain(screen, settings, rains):
+    settings.currentrain_interval += 1
+    
+    if settings.currentrain_interval == settings.rain_interval:
+        rains.add(Rain(screen, settings))
+        settings.currentrain_interval = 0
+
+
 def update_screen(screen, settings, ship, bullets, rains):
     screen.fill(settings.bgcolor)
 
@@ -58,10 +66,7 @@ def update_screen(screen, settings, ship, bullets, rains):
     ship.move()
     ship.blitme()
 
-    settings.currentrain_interval += 1
-    if settings.currentrain_interval == settings.rain_interval:
-        rains.add(Rain(screen, settings))
-        settings.currentrain_interval = 0
+    create_rain(screen, settings, rains)
 
     rains.update()
 
