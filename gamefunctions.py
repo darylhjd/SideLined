@@ -5,6 +5,7 @@
 import pygame
 import sys
 from bullet import Bullet
+from rain import Rain
 
 
 def when_keyup(ship, event):
@@ -28,9 +29,9 @@ def when_keydown(ship, event):
 
 def auto_shooting(screen, settings, ship, bullets):
     if pygame.key.get_pressed()[pygame.K_z]:
-        settings.current_interval += 1
+        settings.currentbullet_interval += 1
 
-        if settings.current_interval == settings.bullet_interval:
+        if settings.currentbullet_interval == settings.bullet_interval:
             bullets.add(Bullet(screen, settings, ship))
             settings.current_interval = 0
 
@@ -49,9 +50,19 @@ def check_events(screen, settings, ship, bullets):
             when_keyup(ship, event)
 
 
-def update_screen(screen, settings, ship, bullets):
+def update_screen(screen, settings, ship, bullets, rains):
     screen.fill(settings.bgcolor)
+
     bullets.update()
+
     ship.move()
     ship.blitme()
+
+    settings.currentrain_interval += 1
+    if settings.currentrain_interval == settings.rain_interval:
+        rains.add(Rain(screen, settings))
+        settings.currentrain_interval = 0
+
+    rains.update()
+
     pygame.display.update()
