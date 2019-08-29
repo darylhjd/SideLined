@@ -18,10 +18,11 @@ def run_game():
 
     ship = Ship(screen, settings)
     bullets = Group()
+    rains = Group()
 
     while True:
         gf.check_events(screen, settings, ship, bullets)
-        gf.update_screen(screen, settings, ship, bullets)
+        gf.update_screen(screen, settings, ship, bullets, rains)
 
 
 run_game()
