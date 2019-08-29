@@ -15,7 +15,7 @@ def when_keyup(ship, event):
         ship.move_up = False
 
 
-def when_keydown(screen, settings, ship, bullets, event):
+def when_keydown(ship, event):
     if event.key == pygame.K_q:
         sys.exit()
 
@@ -25,18 +25,26 @@ def when_keydown(screen, settings, ship, bullets, event):
     if event.key == pygame.K_RIGHT:
         ship.move_up = True
 
-    if event.key == pygame.K_z:
-        new_bullet = Bullet(screen, settings, ship)
-        bullets.add(new_bullet)
+
+def auto_shooting(screen, settings, ship, bullets):
+    if pygame.key.get_pressed()[pygame.K_z]:
+        settings.current_interval += 1
+
+        if settings.current_interval == settings.bullet_interval:
+            new_bullet = Bullet(screen, settings, ship)
+            bullets.add(new_bullet)
+            settings.current_interval = 0
 
 
 def check_events(screen, settings, ship, bullets):
+    auto_shooting(screen, settings, ship, bullets)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
 
         if event.type == pygame.KEYDOWN:
-            when_keydown(screen, settings, ship, bullets, event)
+            when_keydown(ship, event)
 
         if event.type == pygame.KEYUP:
             when_keyup(ship, event)
