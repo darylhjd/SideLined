@@ -27,10 +27,10 @@ class Ship:
         self.screen.blit(self.image, self.rect)
 
     def move(self):
-        if self.move_up:
+        if self.move_up and self.rect.top > 0:
             self.centery -= self.settings.ship_ymove
 
-        if self.move_down:
+        if self.move_down and self.rect.bottom < self.screen_rect.bottom:
             self.centery += self.settings.ship_ymove
 
         self.rect.centery = self.centery
