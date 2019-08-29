@@ -17,3 +17,7 @@ class Settings:
         # Bullet settings
         self.sb_width = 15
         self.sb_height = 3
+
+        # Auto-shoot intervals
+        self.bullet_interval = 300
+        self.current_interval = 0
