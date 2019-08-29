@@ -31,8 +31,7 @@ def auto_shooting(screen, settings, ship, bullets):
         settings.current_interval += 1
 
         if settings.current_interval == settings.bullet_interval:
-            new_bullet = Bullet(screen, settings, ship)
-            bullets.add(new_bullet)
+            bullets.add(Bullet(screen, settings, ship))
             settings.current_interval = 0
 
 
