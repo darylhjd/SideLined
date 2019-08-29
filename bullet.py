@@ -9,11 +9,11 @@ from pygame.sprite import Sprite
 class Bullet(Sprite):
     def __init__(self, screen, settings, ship):
         Sprite.__init__(self)
+        self.settings = settings
 
-        # Generic settings
+        # Screen settings
         self.screen = screen
         self.screen_rect = self.screen.get_rect()
-        self.settings = settings
 
         # Properties
         self.color = (200, 200, 200)
