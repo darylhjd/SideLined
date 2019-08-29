@@ -15,6 +15,9 @@ def when_keyup(ship, event):
 
 
 def when_keydown(ship, event):
+    if event.key == pygame.K_q:
+        sys.exit()
+
     if event.key == pygame.K_LEFT:
         ship.move_down = True
 
