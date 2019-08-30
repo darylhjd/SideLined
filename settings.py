@@ -25,8 +25,11 @@ class Settings:
         self.sb_speed = 15
 
         # Rain settings
-        self.rainx_move = -3
-        self.rainy_move = 3
+        self.rainx_move = -20
+        self.rainy_move = 20
         # Creation intervals
         self.rain_interval = 7
         self.currentrain_interval = 0
+
+        # BGImage settings
+        self.bgx_move = -0.8

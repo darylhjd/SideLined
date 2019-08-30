@@ -16,7 +16,7 @@ class Bullet(Sprite):
         self.screen_rect = self.screen.get_rect()
 
         # Properties
-        self.color = (60, 60, 60)
+        self.color = (230, 230, 230)
         self.width = self.settings.sb_width
         self.height = self.settings.sb_height
         self.rect = pygame.Rect(0, 0, self.width, self.height)
