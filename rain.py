@@ -20,6 +20,8 @@ class Rain(Sprite):
         self.kill_chance = 0.0005
         self.width = 3
         self.height = 15
+
+        # Image
         self.image = pygame.transform.rotozoom(pygame.image.load(r"images/raindroplet.bmp"), 0, 0.05)
         self.mask = pygame.mask.from_surface(self.image)
 
