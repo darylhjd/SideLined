@@ -52,7 +52,7 @@ def check_events(screen, settings, ship, bullets):
 
 def create_rain(screen, settings, rains):
     settings.currentrain_interval += 1
-    
+
     if settings.currentrain_interval == settings.rain_interval:
         rains.add(Rain(screen, settings))
         settings.currentrain_interval = 0
