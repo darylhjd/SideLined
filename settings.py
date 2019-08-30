@@ -19,11 +19,11 @@ class Settings:
         self.sb_height = 3
         # Auto-shoot intervals
         self.bullet_interval = 300
-        self.currentbullet_interval = 0
+        self.currentbullet_interval = 299
 
         # Rain settings
-        self.rainx_move = -0.10
-        self.rainy_move = 0.10
+        self.rainx_move = -0.60
+        self.rainy_move = 0.60
         # Creation intervals
-        self.rain_interval = 10
+        self.rain_interval = 13
         self.currentrain_interval = 0
