@@ -17,30 +17,22 @@ class Rain(Sprite):
         self.screen_rect = self.screen.get_rect()
 
         # Properties
-        self.kill_chance = 0.001
-        self.color = (230, 230, 230)
+        self.kill_chance = 0.0005
         self.width = 3
         self.height = 15
-        self.surface = pygame.transform.rotate(pygame.Surface((self.width, self.height)), -30)
-        self.rect = self.surface.get_rect()
+        self.image = pygame.transform.rotozoom(pygame.image.load(r"images/raindroplet.bmp"), 0, 0.05)
+        self.mask = pygame.mask.from_surface(self.image)
 
         # Position raindrop
+        self.rect = self.image.get_rect()
         chance = random.random()
-        if chance <= 0.60:
-            # Creates rain from the top of the screen
-            self.rect.bottom = 0
-            self.rect.centerx = random.randint(0, self.screen_rect.right)
-        else:
-            # Creates rain from the right of the screen.
-            self.rect.left = self.screen_rect.right
-            self.rect.bottom = random.randint(0, self.screen_rect.height)
-
+        self.rect.bottom = 0 if chance <= 0.60 else random.randint(0, self.screen_rect.height)
+        self.rect.left = random.randint(0, self.screen_rect.right) if chance <= 0.60 else self.screen_rect.right
         self.bottom = float(self.rect.bottom)
         self.centerx = float(self.rect.centerx)
 
     def draw_rain(self):
-        self.surface.fill(self.color)
-        self.screen.blit(self.surface, self.rect)
+        self.screen.blit(self.image, self.rect)
 
     def update(self):
         chance = random.random()
