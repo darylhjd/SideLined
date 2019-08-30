@@ -3,6 +3,7 @@
 """Sideways shooter game owo"""
 
 import pygame
+from pygame import DOUBLEBUF, HWSURFACE
 from pygame.sprite import Group
 
 from settings import Settings
@@ -16,7 +17,7 @@ def run_game():
 
     settings = Settings()
 
-    screen = pygame.display.set_mode(settings.screen_dimensions)
+    screen = pygame.display.set_mode(settings.screen_dimensions, DOUBLEBUF | HWSURFACE)
     pygame.display.set_caption("SideLined: On Your Own...")
 
     ship = Ship(screen, settings)
