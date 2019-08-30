@@ -23,12 +23,20 @@ def ship_movement(ship, event, boolean):
 
 
 def when_keyup(ship, event):
+    if event.key == pygame.K_LSHIFT:
+        ship.ymove *= 2
+        ship.xmove *= 2
+
     ship_movement(ship, event, False)
 
 
 def when_keydown(ship, event):
     if event.key == pygame.K_q:
         sys.exit()
+
+    if event.key == pygame.K_LSHIFT:
+        ship.ymove /= 2
+        ship.xmove /= 2
 
     ship_movement(ship, event, True)
 
