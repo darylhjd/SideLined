@@ -19,10 +19,13 @@ def run_game():
     ship = Ship(screen, settings)
     bullets = Group()
     rains = Group()
+    clock = pygame.time.Clock()
+    bg_image = pygame.image.load(r"images/mountains.png")
 
     while True:
         gf.check_events(screen, settings, ship, bullets)
-        gf.update_screen(screen, settings, ship, bullets, rains)
+        gf.update_screen(screen, settings, ship, bullets, rains, bg_image)
+        clock.tick(120)
 
 
 run_game()
