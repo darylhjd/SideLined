@@ -15,6 +15,7 @@ class Ship:
 
         # Image
         self.image = pygame.transform.rotozoom(pygame.image.load(r"images/ship.bmp"), 270, 0.2)
+        self.mask = pygame.mask.from_surface(self.image)
 
         # Position ship
         self.rect = self.image.get_rect()
