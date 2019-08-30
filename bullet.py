@@ -19,9 +19,9 @@ class Bullet(Sprite):
         self.color = (230, 230, 230)
         self.width = self.settings.sb_width
         self.height = self.settings.sb_height
-        self.rect = pygame.Rect(0, 0, self.width, self.height)
 
         # Position bullet
+        self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.rect.centery = ship.centery
         self.left = float(ship.rect.right)
 

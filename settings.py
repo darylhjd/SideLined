@@ -9,6 +9,7 @@ class Settings:
         self.width = width
         self.height = height
         self.screen_dimensions = (self.width, self.height)
+        self.alienscreen_dimensions = (self.width + 1000, self.height + 1000)
         self.bgcolor = color
 
         # Ship settings
@@ -33,3 +34,12 @@ class Settings:
 
         # BGImage settings
         self.bgx_move = -0.8
+
+        # Alien settings
+        self.aliengroup_spawnchance = 0.005
+        self.alienhorizontal_spawn = 0  # 1 means from right, -1 from left, 0 is vertical movement only
+        self.alienvertical_spawn = 0  # 1 means from bottom, -1 from top, 0 is horizontal movement only
+        # Alien group settings
+        self.aliengroup_size = 5
+        self.alien_speed = 3
+
