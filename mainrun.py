@@ -8,23 +8,28 @@ from pygame.sprite import Group
 from settings import Settings
 import gamefunctions as gf
 from ship import Ship
+from bg_image import BGImage
 
 
 def run_game():
     pygame.init()
 
     settings = Settings()
+
     screen = pygame.display.set_mode(settings.screen_dimensions)
+    pygame.display.set_caption("SideLined: On Your Own...")
 
     ship = Ship(screen, settings)
     bullets = Group()
     rains = Group()
+
+    bgimage = BGImage(screen, settings)
+
     clock = pygame.time.Clock()
-    bg_image = pygame.image.load(r"images/mountains.png")
 
     while True:
         gf.check_events(screen, settings, ship, bullets)
-        gf.update_screen(screen, settings, ship, bullets, rains, bg_image)
+        gf.update_screen(screen, settings, ship, bullets, rains, bgimage)
         clock.tick(120)
 
 

@@ -64,8 +64,16 @@ def create_rain(screen, settings, rains):
     settings.currentrain_interval += 1
 
 
-def update_screen(screen, settings, ship, bullets, rains, bg_image):
-    screen.blit(bg_image, (0, 0))
+def move_background(screen, settings, bgimage):
+    screen.blit(bgimage.image, bgimage.rect)
+
+    if bgimage.rect.right < settings.width:
+        screen.blit(bgimage.image, (bgimage.rect.right, 0))
+
+
+def update_screen(screen, settings, ship, bullets, rains, bgimage):
+    bgimage.scroll()
+    move_background(screen, settings, bgimage)
 
     bullets.update()
     ship.update()
