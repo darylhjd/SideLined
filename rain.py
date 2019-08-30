@@ -22,7 +22,7 @@ class Rain(Sprite):
         self.height = 15
 
         # Image
-        self.image = pygame.transform.rotozoom(pygame.image.load(r"images/raindroplet.bmp"), 0, 0.05)
+        self.image = pygame.transform.rotozoom(pygame.image.load(r"images/raindroplet.bmp").convert_alpha(), 0, 0.05)
         self.mask = pygame.mask.from_surface(self.image)
 
         # Position raindrop
