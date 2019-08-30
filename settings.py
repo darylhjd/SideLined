@@ -22,8 +22,8 @@ class Settings:
         self.currentbullet_interval = 0
 
         # Rain settings
-        self.rainx_move = -0.75
-        self.rainy_move = 0.75
+        self.rainx_move = -0.10
+        self.rainy_move = 0.10
         # Creation intervals
         self.rain_interval = 10
         self.currentrain_interval = 0
