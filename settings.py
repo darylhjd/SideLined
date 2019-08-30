@@ -12,18 +12,21 @@ class Settings:
         self.bgcolor = color
 
         # Ship settings
-        self.ship_ymove = 1
+        self.shipy_move = 8
+        self.shipx_move = 6
 
         # Bullet settings
         self.sb_width = 15
         self.sb_height = 3
         # Auto-shoot intervals
-        self.bullet_interval = 300
-        self.currentbullet_interval = 299
+        self.sb_interval = 50
+        self.currentsb_interval = 50
+        # Bullet speed
+        self.sb_speed = 15
 
         # Rain settings
-        self.rainx_move = -0.60
-        self.rainy_move = 0.60
+        self.rainx_move = -3
+        self.rainy_move = 3
         # Creation intervals
-        self.rain_interval = 13
+        self.rain_interval = 7
         self.currentrain_interval = 0
