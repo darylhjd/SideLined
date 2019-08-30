@@ -18,8 +18,11 @@ class BGImage:
         self.rect = self.image.get_rect()
         self.left = float(self.screen_rect.left)
 
+        # Movement properties
+        self.xmove = self.settings.bgx_move
+
     def scroll(self):
-        self.left += self.settings.bgx_move
+        self.left += self.xmove
         self.rect.left = self.left
 
         if self.rect.right < 0:

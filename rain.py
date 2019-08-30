@@ -33,13 +33,17 @@ class Rain(Sprite):
         self.bottom = float(self.rect.bottom)
         self.centerx = float(self.rect.centerx)
 
+        # Movement properties
+        self.ymove = self.settings.rainy_move
+        self.xmove = self.settings.rainx_move
+
     def draw_rain(self):
         self.screen.blit(self.image, self.rect)
 
     def update(self):
         chance = random.random()
-        self.bottom += self.settings.rainy_move
-        self.centerx += self.settings.rainx_move
+        self.bottom += self.ymove
+        self.centerx += self.xmove
 
         if self.rect.top >= self.screen_rect.bottom or self.rect.left <= 0 or chance <= self.kill_chance:
             self.kill()
