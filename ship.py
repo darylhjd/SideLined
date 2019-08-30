@@ -19,22 +19,34 @@ class Ship:
 
         # Position ship
         self.rect = self.image.get_rect()
-        self.rect.left = float(0.015 * self.settings.width)
-        self.rect.centery = self.screen_rect.centery
-        self.centery = float(self.rect.centery)
+        self.centery = float(self.screen_rect.centery)
+        self.centerx = float(self.rect.centerx)
 
         # Movement flags and properties
         self.move_up = False
         self.move_down = False
+        self.move_left = False
+        self.move_right = False
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
 
     def move(self):
         if self.move_up and self.rect.top > 0:
-            self.centery -= self.settings.ship_ymove
+            self.centery -= self.settings.shipy_move
 
         if self.move_down and self.rect.bottom < self.screen_rect.bottom:
-            self.centery += self.settings.ship_ymove
+            self.centery += self.settings.shipy_move
+
+        if self.move_left and self.rect.left > 0:
+            self.centerx -= self.settings.shipx_move
+
+        if self.move_right and self.rect.right < self.screen_rect.right:
+            self.centerx += self.settings.shipx_move
 
         self.rect.centery = self.centery
+        self.rect.centerx = self.centerx
+
+    def update(self):
+        self.move()
+        self.blitme()
