@@ -10,7 +10,6 @@ from settings import Settings
 import gamefunctions as gf
 from ship import Ship
 from bg_image import BGImage
-from screens import Screen
 
 
 def run_game():
@@ -18,7 +17,7 @@ def run_game():
 
     settings = Settings()
 
-    screen = Screen(settings.screen_dimensions)
+    screen = pygame.display.set_mode(settings.screen_dimensions, DOUBLEBUF | HWSURFACE)
     pygame.display.set_caption("SideLined: On Your Own...")
 
     ship = Ship(screen, settings)
@@ -27,8 +26,9 @@ def run_game():
 
     aliens_grouplist = []
 
-    alien_screen = Screen(settings.alienscreen_dimensions)
-    alien_screen.screen_rect.centerx = screen.screen_rect.centerx
+    alien_screen = pygame.Surface(settings.alienscreen_dimensions)
+    alien_screenrect = alien_screen.get_rect()
+    alien_screenrect.centerx = screen.get_rect().centerx
 
     bgimage = BGImage(screen, settings)
 
@@ -37,7 +37,7 @@ def run_game():
     while True:
         gf.check_events(screen, settings, ship, bullets, aliens_grouplist, alien_screen)
         gf.update_screen(screen, settings, ship, bullets, rains, bgimage, aliens_grouplist)
-        clock.tick(120)
+        clock.tick(140)
 
 
 run_game()

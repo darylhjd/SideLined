@@ -2,7 +2,6 @@
 # gamefunctions.py
 """Functions for the main game to run"""
 
-
 import sys
 import random
 import pygame
@@ -48,15 +47,25 @@ def when_keydown(ship, event):
 
 def spawn_aliengroup(screen, settings, aliens_grouplist, alien_screen, position_chance, start):
     aliens = AlienGroup(alien_screen, settings)
+
     for alien_num in range(settings.aliengroup_size):
-        alien = Alien(screen, settings)
+        alien = Alien(screen, settings, aliens)
+
         if 0 <= position_chance < 0.4:  # Left and right
             alien.centery = start + (alien_num * settings.alienvertical_spawn * alien.rect.width)
-            alien.centerx = settings.alienhorizontal_spawn * ()
+            # settings.alienhorizontal_spawn = -1 or 1, -1 is to move right,  1 is to move left
+            alien.centerx = screen.get_rect().centerx + \
+                settings.alienhorizontal_spawn * \
+                (screen.get_rect().centerx + alien.rect.width * 2) + (alien_num * 2 * alien.rect.width)
         else:  # Top and bottom
-            alien.centerx = start
+            alien.centerx = start + (alien_num * settings.alienhorizontal_spawn * alien.rect.width)
+            alien.centery = screen.get_rect().centery + \
+                settings.alienvertical_spawn * \
+                (screen.get_rect().centery + alien.rect.width * 2) + (alien_num * 2 * alien.rect.width)
 
         aliens.add(alien)
+
+    aliens_grouplist.append(aliens)
 
 
 def create_aliens(screen, settings, aliens_grouplist, alien_screen):
@@ -71,8 +80,8 @@ def create_aliens(screen, settings, aliens_grouplist, alien_screen):
             settings.alienhorizontal_spawn = -1
             y_start = random.randint(0, settings.height)
 
-            if settings.height/3 < y_start < 2/3 * settings.height:
-                settings.alienvertical_spawn = random.choice({-1, 1})
+            if settings.height / 3 < y_start < 2 / 3 * settings.height:
+                settings.alienvertical_spawn = random.choice([-1, 1])
             else:
                 settings.alienvertical_spawn = 0
 
@@ -82,8 +91,8 @@ def create_aliens(screen, settings, aliens_grouplist, alien_screen):
             settings.alienhorizontal_spawn = 1
             y_start = random.randint(0, settings.height)
 
-            if settings.height/3 < y_start < 2/3 * settings.height:
-                settings.alienvertical_spawn = random.choice({-1, 1})
+            if settings.height / 3 < y_start < 2 / 3 * settings.height:
+                settings.alienvertical_spawn = random.choice([-1, 1])
             else:
                 settings.alienvertical_spawn = 0
 
@@ -93,8 +102,8 @@ def create_aliens(screen, settings, aliens_grouplist, alien_screen):
             settings.alienvertical_spawn = -1
             x_start = random.randint(0, settings.width)
 
-            if settings.width/3 < x_start < 2/3 * settings.width:
-                settings.alienhorizontal_spawn = random.choice({-1, 1})
+            if settings.width / 3 < x_start < 2 / 3 * settings.width:
+                settings.alienhorizontal_spawn = random.choice([-1, 1])
             else:
                 settings.alienhorizontal_spawn = 0
 
@@ -104,8 +113,8 @@ def create_aliens(screen, settings, aliens_grouplist, alien_screen):
             settings.alienvertical_spawn = 1
             x_start = random.randint(0, settings.width)
 
-            if settings.width/3 < x_start < 2/3 * settings.width:
-                settings.alienhorizontal_spawn = random.choice({-1, 1})
+            if settings.width / 3 < x_start < 2 / 3 * settings.width:
+                settings.alienhorizontal_spawn = random.choice([-1, 1])
             else:
                 settings.alienhorizontal_spawn = 0
 
@@ -160,6 +169,9 @@ def update_screen(screen, settings, ship, bullets, rains, bgimage, aliens_groupl
 
     bullets.update()
     ship.update()
+
+    for group in aliens_grouplist:
+        group.update()
 
     create_rain(screen, settings, rains)
     pygame.sprite.spritecollide(ship, rains, dokill=True, collided=pygame.sprite.collide_mask)

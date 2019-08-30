@@ -3,12 +3,9 @@
 """Class file for the screens used in SideLined"""
 
 import pygame
-from pygame import DOUBLEBUF, HWSURFACE
 
 
-class Screen:
+class Backscreen:
     def __init__(self, screen_dimensions):
-        # Screen settings
-        self.surface = pygame.display.set_mode(screen_dimensions, DOUBLEBUF | HWSURFACE)
-        self.screen_rect = self.surface.get_rect()
-
+        self.screen = pygame.Surface(screen_dimensions)
+        self.screen_rect = self.screen.get_rect()
