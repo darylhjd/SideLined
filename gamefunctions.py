@@ -33,7 +33,7 @@ def auto_shooting(screen, settings, ship, bullets):
 
         if settings.currentbullet_interval == settings.bullet_interval:
             bullets.add(Bullet(screen, settings, ship))
-            settings.current_interval = 0
+            settings.currentbullet_interval = 0
 
 
 def check_events(screen, settings, ship, bullets):
@@ -67,7 +67,7 @@ def update_screen(screen, settings, ship, bullets, rains):
     ship.blitme()
 
     create_rain(screen, settings, rains)
-
+    pygame.sprite.spritecollide(ship, rains, dokill=True, collided=pygame.sprite.collide_mask)
     rains.update()
 
     pygame.display.update()
