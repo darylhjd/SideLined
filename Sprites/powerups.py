@@ -33,11 +33,10 @@ class PowerUp(Sprite):
 
     def move(self):
         self.centerx += self.settings.bgx_move * 1.3
-
-        if self.centerx <= 0:
-            self.kill()
-
         self.rect.centerx = self.centerx
+
+        if self.rect.right <= 0:
+            self.kill()
 
     def update(self):
         self.move()
