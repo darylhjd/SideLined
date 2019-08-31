@@ -2,13 +2,14 @@
 # gamefunctions.py
 """Functions for the main game to run"""
 
-import sys
 import random
+import sys
+
 import pygame
 
+from Sprites.alien import Alien, AlienGroup
 from Sprites.bullet import Bullet
 from Sprites.rain import Rain
-from Sprites.alien import Alien, AlienGroup
 from settings import AGroupS
 
 

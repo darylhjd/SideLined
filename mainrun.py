@@ -7,9 +7,9 @@ from pygame import DOUBLEBUF, HWSURFACE
 from pygame.sprite import Group
 
 import gamefunctions as gf
-from settings import Settings
-from Sprites.ship import Ship
 from Background.bg_image import BGImage
+from Sprites.ship import Ship
+from settings import Settings
 
 
 def run_game():

@@ -3,6 +3,7 @@
 """Class file for rain effect"""
 
 import random
+
 import pygame
 from pygame.sprite import Sprite
 

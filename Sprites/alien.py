@@ -3,8 +3,8 @@
 """Class file for aliens"""
 
 import pygame
-from pygame.sprite import Sprite
 from pygame.sprite import Group
+from pygame.sprite import Sprite
 
 
 class AlienGroup(Group):
