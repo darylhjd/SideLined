@@ -59,19 +59,19 @@ def decide_secondary(start, parameter):
     return random.choice([-1, 1]) if parameter/3 < start < 2/3 * parameter else 0
 
 
-def create_aliens(screen, settings, aliens_grouplist, alien_screen):
+def create_aliens(screen, settings, ship, aliens_grouplist):
     # Decides which side of the screen the aliens will spawn from.
     position_chance = random.random()
 
     if 0 <= position_chance < 0.6:  # From left and right of screen
-        y_start = random.randint(0, settings.height)
-        hspawn_d = -1 if 0 <= position_chance < 0.01 else 1
+        y_start = random.randint(0 + ship.height, settings.height - ship.height)
+        hspawn_d = -1 if 0 <= position_chance < 0.05 else 1
         vspawn_d = decide_secondary(y_start, settings.height)
 
         x_start = -50 if hspawn_d == -1 else 50 + settings.width
 
     else:  # From top and bottom of screen
-        x_start = random.randint(0, settings.width)
+        x_start = random.randint(0 + ship.width, settings.width - ship.width)
         hspawn_d = decide_secondary(x_start, settings.width)
         vspawn_d = -1 if 0.6 <= position_chance < 0.8 else 1
 
@@ -79,7 +79,7 @@ def create_aliens(screen, settings, aliens_grouplist, alien_screen):
 
     start_coor = (x_start, y_start)
     agsettings = AGroupS(hspawn_d, vspawn_d, start_coor)
-    aliengroup = AlienGroup(alien_screen, agsettings)
+    aliengroup = AlienGroup(agsettings)
 
     spawn_aliengroup(screen, aliens_grouplist, agsettings, aliengroup)
 
@@ -93,9 +93,9 @@ def auto_shooting(screen, settings, ship, bullets):
         settings.currentsb_interval += 1
 
 
-def check_events(screen, settings, ship, bullets, aliens_grouplist, alien_screen):
-    if random.random() <= settings.aliengroup_spawnchance:
-        create_aliens(screen, settings, aliens_grouplist, alien_screen)
+def check_events(screen, settings, ship, bullets, aliens_grouplist):
+    if random.random() <= settings.aliengroup_spawnchance or not len(aliens_grouplist):
+        create_aliens(screen, settings, ship, aliens_grouplist)
 
     auto_shooting(screen, settings, ship, bullets)
 
@@ -125,6 +125,16 @@ def move_background(screen, settings, bgimage):
         screen.blit(bgimage.image, (bgimage.rect.right, 0))
 
 
+def check_collisions(ship, bullets, rains, aliens_grouplist):
+    pygame.sprite.spritecollide(ship, rains, dokill=True, collided=pygame.sprite.collide_mask)
+
+    for group in aliens_grouplist:
+        pygame.sprite.groupcollide(bullets, group, True, True)
+        pygame.sprite.groupcollide(rains, group, True, False, collided=pygame.sprite.collide_mask)
+        if pygame.sprite.spritecollideany(ship, group, collided=pygame.sprite.collide_mask):
+            print("hit")
+
+
 def update_screen(screen, settings, ship, bullets, rains, bgimage, aliens_grouplist):
     bgimage.scroll()
     move_background(screen, settings, bgimage)
@@ -132,11 +142,14 @@ def update_screen(screen, settings, ship, bullets, rains, bgimage, aliens_groupl
     bullets.update()
     ship.update()
 
+    check_collisions(ship, bullets, rains, aliens_grouplist)
+
     for group in aliens_grouplist:
         group.update()
+    for group in [group for group in aliens_grouplist if not len(group)]:
+        aliens_grouplist.remove(group)
 
     create_rain(screen, settings, rains)
-    pygame.sprite.spritecollide(ship, rains, dokill=True, collided=pygame.sprite.collide_mask)
     rains.update()
 
     pygame.display.update()
