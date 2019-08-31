@@ -42,7 +42,7 @@ class Settings:
 
 
 # Settings for AlienGroup
-class AGroupS:
+class AlienGroupSettings:
     def __init__(self, hspawn_d, vspawn_d, start_coor):
         # Group settings
         self.aliengroup_size = 5

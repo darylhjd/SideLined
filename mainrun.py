@@ -7,7 +7,7 @@ from pygame import DOUBLEBUF, HWSURFACE
 from pygame.sprite import Group
 
 import gamefunctions as gf
-from Background.bg_image import BGImage
+from bg_image import BGImage
 from Sprites.ship import Ship
 from settings import Settings
 
@@ -33,7 +33,8 @@ def run_game():
 
     while True:
         # Check events
-        gf.check_events(settings, ship, bullets, rains, aliens_grouplist, powerups)
+        gf.check_ship_movement(settings, ship)
+        gf.check_collisions(ship, bullets, rains, aliens_grouplist, powerups)
 
         # Update objects
         gf.update_background(bgimage)

@@ -10,9 +10,12 @@ import pygame
 from Sprites.alien import Alien, AlienGroup
 from Sprites.bullet import Bullet
 from Sprites.rain import Rain
-from settings import AGroupS
+from settings import AlienGroupSettings
 
 
+# -----------------------------------------------------------------
+# SECTION: Event checking
+# Check ship functions
 def ship_movement(ship, event, boolean):
     if event.key == pygame.K_DOWN:
         ship.move_down = boolean
@@ -46,6 +49,20 @@ def when_keydown(settings, ship, event):
     ship_movement(ship, event, True)
 
 
+def check_ship_movement(settings, ship):
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+
+        if event.type == pygame.KEYDOWN:
+            when_keydown(settings, ship, event)
+
+        if event.type == pygame.KEYUP:
+            when_keyup(settings, ship, event)
+# End Ship functions
+
+
+# Check Collisions functions
 def create_powerups(alien_collisions, powerups):
     pass
 
@@ -68,22 +85,12 @@ def check_collisions(ship, bullets, rains, aliens_grouplist, powerups):
             print("hit")
 
     create_powerups(alien_collisions, powerups)
+# End Collisions functions
+# END SECTION: Event checking
+# -----------------------------------------------------------------
 
 
-def check_events(settings, ship, bullets, rains, aliens_grouplist, powerups):
-    check_collisions(ship, bullets, rains, aliens_grouplist, powerups)
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
-
-        if event.type == pygame.KEYDOWN:
-            when_keydown(settings, ship, event)
-
-        if event.type == pygame.KEYUP:
-            when_keyup(settings, ship, event)
-
-
+# -----------------------------------------------------------------
 # SECTION: Updating of objects
 def update_background(bgimage):
     bgimage.update()
@@ -158,7 +165,7 @@ def create_aliens(screen, settings, ship, aliens_grouplist):
         y_start = -50 if vspawn_d == -1 else 50 + settings.height
 
     start_coor = (x_start, y_start)
-    agsettings = AGroupS(hspawn_d, vspawn_d, start_coor)
+    agsettings = AlienGroupSettings(hspawn_d, vspawn_d, start_coor)
     aliengroup = AlienGroup(agsettings)
 
     spawn_aliengroup(screen, aliens_grouplist, agsettings, aliengroup)
@@ -174,3 +181,5 @@ def update_aliens(screen, settings, ship, aliens_grouplist):
         else:
             alien_group.update()
 # End alien functions
+# END SECTION: Updating of objects
+# -----------------------------------------------------------------
