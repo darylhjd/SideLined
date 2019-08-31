@@ -8,16 +8,12 @@ from pygame.sprite import Group
 
 
 class AlienGroup(Group):
-    def __init__(self, alien_screen, agsettings):
+    def __init__(self, agsettings):
         Group.__init__(self)
         self.agsettings = agsettings
 
         # Group settings
         self.size = self.agsettings.aliengroup_size
-
-        # Alien screen
-        self.alien_screen = alien_screen
-        self.alien_screen_rect = self.alien_screen.rect
 
         # Movement flags
         self.ymove = self.agsettings.v_d * self.agsettings.alien_speed
@@ -30,9 +26,10 @@ class Alien(Sprite):
 
         # Screen settings
         self.screen = screen
+        self.screen_rect = self.screen.get_rect()
 
         # Image
-        self.image = pygame.transform.rotozoom(pygame.image.load(r"images/ufo.bmp"), 0, 0.1)
+        self.image = pygame.transform.rotozoom(pygame.image.load(r"images/ufo.bmp"), 0, 0.08)
         self.mask = pygame.mask.from_surface(self.image)
 
         # Position alien
@@ -44,11 +41,19 @@ class Alien(Sprite):
         self.ymove = aliengroup.ymove
         self.xmove = aliengroup.xmove
 
-    def update(self):
+    def move(self):
         self.centery += self.ymove
         self.centerx += self.xmove
 
         self.rect.centery = self.centery
         self.rect.centerx = self.centerx
 
+    def check_inarea(self):
+        if not -1000 <= self.centerx < self.screen_rect.width + 1000 or \
+           not -1000 <= self.centery <= self.screen_rect.height + 1000:
+            self.kill()
+
+    def update(self):
+        self.move()
+        self.check_inarea()
         self.screen.blit(self.image, self.rect)
