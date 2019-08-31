@@ -6,8 +6,8 @@ import pygame
 from pygame import DOUBLEBUF, HWSURFACE
 from pygame.sprite import Group
 
-from settings import Settings
 import gamefunctions as gf
+from settings import Settings
 from Sprites.ship import Ship
 from Background.bg_image import BGImage
 from Background.backscreen import Backscreen
