@@ -6,10 +6,11 @@ import pygame
 from pygame import DOUBLEBUF, HWSURFACE
 from pygame.sprite import Group
 
-from settings import Settings
 import gamefunctions as gf
-from ship import Ship
-from bg_image import BGImage
+from settings import Settings
+from Sprites.ship import Ship
+from Background.bg_image import BGImage
+from Background.backscreen import Backscreen
 
 
 def run_game():
@@ -24,14 +25,17 @@ def run_game():
     bullets = Group()
     rains = Group()
 
+    aliens_grouplist = []
+    alien_screen = Backscreen(settings.alienscreen_dimensions, screen)
+
     bgimage = BGImage(screen, settings)
 
     clock = pygame.time.Clock()
 
     while True:
-        gf.check_events(screen, settings, ship, bullets)
-        gf.update_screen(screen, settings, ship, bullets, rains, bgimage)
-        clock.tick(120)
+        gf.check_events(screen, settings, ship, bullets, aliens_grouplist, alien_screen)
+        gf.update_screen(screen, settings, ship, bullets, rains, bgimage, aliens_grouplist)
+        clock.tick(140)
 
 
 run_game()
