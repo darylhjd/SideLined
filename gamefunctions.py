@@ -69,7 +69,6 @@ def create_aliens(screen, settings, aliens_grouplist, alien_screen):
         vspawn_d = decide_secondary(y_start, settings.height)
 
         x_start = -50 if hspawn_d == -1 else 50 + settings.width
-        start_coor = (x_start, y_start)
 
     else:  # From top and bottom of screen
         x_start = random.randint(0, settings.width)
@@ -77,8 +76,8 @@ def create_aliens(screen, settings, aliens_grouplist, alien_screen):
         vspawn_d = -1 if 0.6 <= position_chance < 0.8 else 1
 
         y_start = -50 if vspawn_d == -1 else 50 + settings.height
-        start_coor = (x_start, y_start)
 
+    start_coor = (x_start, y_start)
     agsettings = AGroupS(hspawn_d, vspawn_d, start_coor)
     aliengroup = AlienGroup(alien_screen, agsettings)
 
