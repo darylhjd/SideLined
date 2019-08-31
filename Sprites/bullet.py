@@ -31,7 +31,7 @@ class Bullet(Sprite):
     def draw_bullet(self):
         pygame.draw.rect(self.screen, self.color, self.rect)
 
-    def update(self):
+    def move_bullet(self):
         self.left += self.speed
 
         if self.left >= self.screen_rect.right:
@@ -39,4 +39,6 @@ class Bullet(Sprite):
 
         self.rect.left = self.left
 
+    def update(self):
+        self.move_bullet()
         self.draw_bullet()

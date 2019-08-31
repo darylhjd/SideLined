@@ -29,7 +29,7 @@ class Alien(Sprite):
         self.screen_rect = self.screen.get_rect()
 
         # Image
-        self.image = pygame.transform.rotozoom(pygame.image.load(r"images/ufo.bmp"), 0, 0.08)
+        self.image = pygame.transform.rotozoom(pygame.image.load(r"images/ufo.bmp").convert_alpha(), 0, 0.08)
         self.mask = pygame.mask.from_surface(self.image)
 
         # Position alien
@@ -40,6 +40,9 @@ class Alien(Sprite):
         # Movement properties
         self.ymove = aliengroup.ymove
         self.xmove = aliengroup.xmove
+
+    def blitme(self):
+        self.screen.blit(self.image, self.rect)
 
     def move(self):
         self.centery += self.ymove
@@ -56,4 +59,4 @@ class Alien(Sprite):
     def update(self):
         self.move()
         self.check_inarea()
-        self.screen.blit(self.image, self.rect)
+        self.blitme()

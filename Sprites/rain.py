@@ -38,10 +38,10 @@ class Rain(Sprite):
         self.ymove = self.settings.rainy_move
         self.xmove = self.settings.rainx_move
 
-    def draw_rain(self):
+    def blitme(self):
         self.screen.blit(self.image, self.rect)
 
-    def update(self):
+    def move_rain(self):
         chance = random.random()
         self.bottom += self.ymove
         self.centerx += self.xmove
@@ -52,4 +52,6 @@ class Rain(Sprite):
         self.rect.bottom = self.bottom
         self.rect.centerx = self.centerx
 
-        self.draw_rain()
+    def update(self):
+        self.move_rain()
+        self.blitme()

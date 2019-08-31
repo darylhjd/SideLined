@@ -22,6 +22,7 @@ class Settings:
         self.sb_width = 15
         self.sb_height = 3
         # Auto-shoot intervals
+        self.max_sb_interval = 7
         self.sb_interval = 50
         self.currentsb_interval = 50
         # Bullet speed
@@ -40,9 +41,13 @@ class Settings:
         # Alien settings
         self.aliengroup_spawnchance = 0.0007
 
+        # Powerup settings
+        self.powerup_spawnchance = 0.2
+        self.pincrease_power = 1
+
 
 # Settings for AlienGroup
-class AGroupS:
+class AlienGroupSettings:
     def __init__(self, hspawn_d, vspawn_d, start_coor):
         # Group settings
         self.aliengroup_size = 5
