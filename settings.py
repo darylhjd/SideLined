@@ -14,9 +14,9 @@ class Settings:
         self.bgcolor = color
 
         # Ship settings
-        self.shipy_move = 8
-        self.shipx_move = 6
-        self.shipspeed_factor = 2
+        self.shipy_move = 4
+        self.shipx_move = 4
+        self.shipspeed_factor = 3
 
         # Bullet settings
         self.sb_width = 15
@@ -38,7 +38,7 @@ class Settings:
         self.bgx_move = -0.8
 
         # Alien settings
-        self.aliengroup_spawnchance = 0.001
+        self.aliengroup_spawnchance = 0.0007
 
 
 # Settings for AlienGroup
