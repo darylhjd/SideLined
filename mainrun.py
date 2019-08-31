@@ -10,6 +10,7 @@ from settings import Settings
 import gamefunctions as gf
 from ship import Ship
 from bg_image import BGImage
+from backscreen import Backscreen
 
 
 def run_game():
@@ -25,10 +26,7 @@ def run_game():
     rains = Group()
 
     aliens_grouplist = []
-
-    alien_screen = pygame.Surface(settings.alienscreen_dimensions)
-    alien_screenrect = alien_screen.get_rect()
-    alien_screenrect.centerx = screen.get_rect().centerx
+    alien_screen = Backscreen(settings.alienscreen_dimensions, screen)
 
     bgimage = BGImage(screen, settings)
 

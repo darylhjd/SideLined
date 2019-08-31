@@ -15,6 +15,7 @@ class Settings:
         # Ship settings
         self.shipy_move = 8
         self.shipx_move = 6
+        self.shipspeed_factor = 2
 
         # Bullet settings
         self.sb_width = 15
@@ -36,10 +37,4 @@ class Settings:
         self.bgx_move = -0.8
 
         # Alien settings
-        self.aliengroup_spawnchance = 0.0005
-        self.alienhorizontal_spawn = 0  # 1 means from right, -1 from left, 0 is vertical movement only
-        self.alienvertical_spawn = 0  # 1 means from bottom, -1 from top, 0 is horizontal movement only
-        # Alien group settings
-        self.aliengroup_size = 5
-        self.alien_speed = 1
-
+        self.aliengroup_spawnchance = 0.005

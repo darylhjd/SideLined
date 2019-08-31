@@ -5,11 +5,11 @@
 import sys
 import random
 import pygame
-from pygame.sprite import Group
 
 from bullet import Bullet
 from rain import Rain
 from alien import Alien, AlienGroup
+from aliengroup_settings import AGroupS
 
 
 def ship_movement(ship, event, boolean):
@@ -26,101 +26,63 @@ def ship_movement(ship, event, boolean):
         ship.move_right = boolean
 
 
-def when_keyup(ship, event):
+def when_keyup(settings, ship, event):
     if event.key == pygame.K_LSHIFT:
-        ship.ymove *= 2
-        ship.xmove *= 2
+        ship.ymove *= settings.shipspeed_factor
+        ship.xmove *= settings.shipspeed_factor
 
     ship_movement(ship, event, False)
 
 
-def when_keydown(ship, event):
+def when_keydown(settings, ship, event):
     if event.key == pygame.K_q:
         sys.exit()
 
     if event.key == pygame.K_LSHIFT:
-        ship.ymove /= 2
-        ship.xmove /= 2
+        ship.ymove /= settings.shipspeed_factor
+        ship.xmove /= settings.shipspeed_factor
 
     ship_movement(ship, event, True)
 
 
-def spawn_aliengroup(screen, settings, aliens_grouplist, alien_screen, position_chance, start):
-    aliens = AlienGroup(alien_screen, settings)
+def spawn_aliengroup(screen, aliens_grouplist, agsettings, aliengroup):
+    for alien_num in range(aliengroup.size):
+        alien = Alien(screen, aliengroup)
+        alien.centerx = agsettings.xstart + (alien_num * agsettings.hspawn_d * 2 * alien.rect.width)
+        alien.centery = agsettings.ystart + (alien_num * agsettings.vspawn_d * 2 * alien.rect.height)
+        aliengroup.add(alien)
 
-    for alien_num in range(settings.aliengroup_size):
-        alien = Alien(screen, settings, aliens)
+    aliens_grouplist.append(aliengroup)
 
-        if 0 <= position_chance < 0.4:  # Left and right
-            alien.centery = start + (alien_num * settings.alienvertical_spawn * alien.rect.width)
-            # settings.alienhorizontal_spawn = -1 or 1, -1 is to move right,  1 is to move left
-            alien.centerx = screen.get_rect().centerx + \
-                settings.alienhorizontal_spawn * \
-                (screen.get_rect().centerx + alien.rect.width * 2) + (alien_num * 2 * alien.rect.width)
-        else:  # Top and bottom
-            alien.centerx = start + (alien_num * settings.alienhorizontal_spawn * alien.rect.width)
-            alien.centery = screen.get_rect().centery + \
-                settings.alienvertical_spawn * \
-                (screen.get_rect().centery + alien.rect.width * 2) + (alien_num * 2 * alien.rect.width)
 
-        aliens.add(alien)
-
-    aliens_grouplist.append(aliens)
+def decide_secondary(start, parameter):
+    return random.choice([-1, 1]) if parameter/3 < start < 2/3 * parameter else 0
 
 
 def create_aliens(screen, settings, aliens_grouplist, alien_screen):
-    # Chance of creating a new group
-    if random.random() <= settings.aliengroup_spawnchance:
+    # Decides which side of the screen the aliens will spawn from.
+    position_chance = random.random()
 
-        # Decides which side of the screen the aliens will spawn from.
-        # There are four sides to choose from: top, bottom, right, left
-        position_chance = random.random()
+    if 0 <= position_chance < 0.6:  # From left and right of screen
+        y_start = random.randint(0, settings.height)
+        hspawn_d = -1 if 0 <= position_chance < 0.01 else 1
+        vspawn_d = decide_secondary(y_start, settings.height)
 
-        if position_chance < 0.1:  # From left of screen
-            settings.alienhorizontal_spawn = -1
-            y_start = random.randint(0, settings.height)
+        x_start = -50 if hspawn_d == -1 else 50 + settings.width
+        start_coor = (x_start, y_start)
 
-            if settings.height / 3 < y_start < 2 / 3 * settings.height:
-                settings.alienvertical_spawn = random.choice([-1, 1])
-            else:
-                settings.alienvertical_spawn = 0
+    else:  # From top and bottom of screen
+        x_start = random.randint(0, settings.width)
+        hspawn_d = decide_secondary(x_start, settings.width)
+        vspawn_d = -1 if 0.6 <= position_chance < 0.8 else 1
 
-            start = y_start
+        y_start = -50 if vspawn_d == -1 else 50 + settings.height
+        start_coor = (x_start, y_start)
 
-        elif 0.1 <= position_chance < 0.4:  # From right of screen
-            settings.alienhorizontal_spawn = 1
-            y_start = random.randint(0, settings.height)
+    agsettings = AGroupS(hspawn_d, vspawn_d, start_coor)
+    aliengroup = AlienGroup(alien_screen, agsettings)
 
-            if settings.height / 3 < y_start < 2 / 3 * settings.height:
-                settings.alienvertical_spawn = random.choice([-1, 1])
-            else:
-                settings.alienvertical_spawn = 0
-
-            start = y_start
-
-        elif 0.4 <= position_chance < 0.7:  # From top of screen
-            settings.alienvertical_spawn = -1
-            x_start = random.randint(0, settings.width)
-
-            if settings.width / 3 < x_start < 2 / 3 * settings.width:
-                settings.alienhorizontal_spawn = random.choice([-1, 1])
-            else:
-                settings.alienhorizontal_spawn = 0
-
-            start = x_start
-
-        else:  # From bottom of screen
-            settings.alienvertical_spawn = 1
-            x_start = random.randint(0, settings.width)
-
-            if settings.width / 3 < x_start < 2 / 3 * settings.width:
-                settings.alienhorizontal_spawn = random.choice([-1, 1])
-            else:
-                settings.alienhorizontal_spawn = 0
-
-            start = x_start
-
-        spawn_aliengroup(screen, settings, aliens_grouplist, alien_screen, position_chance, start)
+    spawn_aliengroup(screen, aliens_grouplist, agsettings, aliengroup)
 
 
 def auto_shooting(screen, settings, ship, bullets):
@@ -133,7 +95,8 @@ def auto_shooting(screen, settings, ship, bullets):
 
 
 def check_events(screen, settings, ship, bullets, aliens_grouplist, alien_screen):
-    create_aliens(screen, settings, aliens_grouplist, alien_screen)
+    if random.random() <= settings.aliengroup_spawnchance:
+        create_aliens(screen, settings, aliens_grouplist, alien_screen)
 
     auto_shooting(screen, settings, ship, bullets)
 
@@ -142,10 +105,10 @@ def check_events(screen, settings, ship, bullets, aliens_grouplist, alien_screen
             sys.exit()
 
         if event.type == pygame.KEYDOWN:
-            when_keydown(ship, event)
+            when_keydown(settings, ship, event)
 
         if event.type == pygame.KEYUP:
-            when_keyup(ship, event)
+            when_keyup(settings, ship, event)
 
 
 def create_rain(screen, settings, rains):
