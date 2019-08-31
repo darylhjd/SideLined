@@ -9,8 +9,8 @@ import pygame
 
 from Sprites.alien import Alien, AlienGroup
 from Sprites.bullet import Bullet
-from Sprites.rain import Rain
 from Sprites.powerups import PowerUp
+from Sprites.rain import Rain
 from settings import AlienGroupSettings
 
 
