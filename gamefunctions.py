@@ -65,14 +65,14 @@ def create_aliens(screen, settings, ship, aliens_grouplist):
     position_chance = random.random()
 
     if 0 <= position_chance < 0.6:  # From left and right of screen
-        y_start = random.randint(0 + ship.height, settings.height - ship.height)
+        y_start = random.randint(0 + ship.height * 2, settings.height - ship.height * 2)
         hspawn_d = -1 if 0 <= position_chance < 0.05 else 1
         vspawn_d = decide_secondary(y_start, settings.height)
 
         x_start = -50 if hspawn_d == -1 else 50 + settings.width
 
     else:  # From top and bottom of screen
-        x_start = random.randint(0 + ship.width, settings.width - ship.width)
+        x_start = random.randint(0 + ship.width * 2, settings.width - ship.width * 2)
         hspawn_d = decide_secondary(x_start, settings.width)
         vspawn_d = -1 if 0.6 <= position_chance < 0.8 else 1
 
