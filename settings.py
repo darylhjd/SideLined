@@ -39,7 +39,7 @@ class Settings:
         self.bgx_move = -0.8
 
         # Alien settings
-        self.aliengroup_spawnchance = 0.90 / self.sb_interval**1.8
+        self.aliengroup_spawnchance = 0.90 / self.sb_interval ** 1.8
 
         # Powerup settings
         self.powerup_spawnchance = 0.2
