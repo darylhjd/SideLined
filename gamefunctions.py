@@ -6,10 +6,10 @@ import sys
 import random
 import pygame
 
-from bullet import Bullet
-from rain import Rain
-from alien import Alien, AlienGroup
-from aliengroup_settings import AGroupS
+from Sprites.bullet import Bullet
+from Sprites.rain import Rain
+from Sprites.alien import Alien, AlienGroup
+from settings import AGroupS
 
 
 def ship_movement(ship, event, boolean):
@@ -49,7 +49,7 @@ def spawn_aliengroup(screen, aliens_grouplist, agsettings, aliengroup):
     for alien_num in range(aliengroup.size):
         alien = Alien(screen, aliengroup)
         alien.centerx = agsettings.xstart + (alien_num * agsettings.hspawn_d * 2 * alien.rect.width)
-        alien.centery = agsettings.ystart + (alien_num * agsettings.vspawn_d * 2 * alien.rect.height)
+        alien.centery = agsettings.ystart + (alien_num * agsettings.vspawn_d * 4 * alien.rect.height)
         aliengroup.add(alien)
 
     aliens_grouplist.append(aliengroup)

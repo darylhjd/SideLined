@@ -8,9 +8,9 @@ from pygame.sprite import Group
 
 from settings import Settings
 import gamefunctions as gf
-from ship import Ship
-from bg_image import BGImage
-from backscreen import Backscreen
+from Sprites.ship import Ship
+from Background.bg_image import BGImage
+from Background.backscreen import Backscreen
 
 
 def run_game():
