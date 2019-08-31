@@ -19,6 +19,8 @@ class Ship:
 
         # Position ship
         self.rect = self.image.get_rect()
+        self.width = self.rect.width
+        self.height = self.rect.height
         self.centery = float(self.screen_rect.centery)
         self.centerx = float(self.rect.centerx)
 
