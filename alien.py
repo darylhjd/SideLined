@@ -21,7 +21,7 @@ class AlienGroup(Group):
 
         # Movement flags
         self.ymove = self.agsettings.v_d * self.agsettings.alien_speed
-        self.xmove = self.agsettings.v_d * self.agsettings.alien_speed
+        self.xmove = self.agsettings.h_d * self.agsettings.alien_speed
 
 
 class Alien(Sprite):
