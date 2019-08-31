@@ -46,6 +46,85 @@ def when_keydown(settings, ship, event):
     ship_movement(ship, event, True)
 
 
+def create_powerups(alien_collisions, powerups):
+    pass
+
+
+def check_collisions(ship, bullets, rains, aliens_grouplist, powerups):
+    # Delete raindrops that hit the ship.
+    pygame.sprite.spritecollide(ship, rains, dokill=True, collided=pygame.sprite.collide_mask)
+
+    alien_collisions = {}
+    for group in aliens_grouplist:
+        # Detect collisions between bullets and aliens and delete them
+        aliengroup_collisions = pygame.sprite.groupcollide(bullets, group, True, True)
+        alien_collisions.update(aliengroup_collisions)
+
+        # Delete raindrops that hit aliens.
+        pygame.sprite.groupcollide(rains, group, True, False, collided=pygame.sprite.collide_mask)
+
+        # Detecting collision between ship and any alien
+        if pygame.sprite.spritecollideany(ship, group, collided=pygame.sprite.collide_mask):
+            print("hit")
+
+    create_powerups(alien_collisions, powerups)
+
+
+def check_events(settings, ship, bullets, rains, aliens_grouplist, powerups):
+    check_collisions(ship, bullets, rains, aliens_grouplist, powerups)
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+
+        if event.type == pygame.KEYDOWN:
+            when_keydown(settings, ship, event)
+
+        if event.type == pygame.KEYUP:
+            when_keyup(settings, ship, event)
+
+
+# SECTION: Updating of objects
+def update_background(bgimage):
+    bgimage.update()
+
+
+def update_ship(ship):
+    ship.update()
+
+
+# Bullet functions
+def auto_shooting(screen, settings, ship, bullets):
+    if pygame.key.get_pressed()[pygame.K_z]:
+        if settings.currentsb_interval == settings.sb_interval:
+            bullets.add(Bullet(screen, settings, ship))
+            settings.currentsb_interval = 0
+
+        settings.currentsb_interval += 1
+
+
+def update_bullets(screen, settings, ship, bullets):
+    auto_shooting(screen, settings, ship, bullets)
+    bullets.update()
+# End Bullet functions
+
+
+# Rain functions
+def create_rain(screen, settings, rains):
+    if settings.currentrain_interval == settings.rain_interval:
+        rains.add(Rain(screen, settings))
+        settings.currentrain_interval = 0
+
+    settings.currentrain_interval += 1
+
+
+def update_rain(screen, settings, rains):
+    create_rain(screen, settings, rains)
+    rains.update()
+# End Rain functions
+
+
+# Alien functions
 def spawn_aliengroup(screen, aliens_grouplist, agsettings, aliengroup):
     for alien_num in range(aliengroup.size):
         alien = Alien(screen, aliengroup)
@@ -85,72 +164,13 @@ def create_aliens(screen, settings, ship, aliens_grouplist):
     spawn_aliengroup(screen, aliens_grouplist, agsettings, aliengroup)
 
 
-def auto_shooting(screen, settings, ship, bullets):
-    if pygame.key.get_pressed()[pygame.K_z]:
-        if settings.currentsb_interval == settings.sb_interval:
-            bullets.add(Bullet(screen, settings, ship))
-            settings.currentsb_interval = 0
-
-        settings.currentsb_interval += 1
-
-
-def check_events(screen, settings, ship, bullets, aliens_grouplist):
+def update_aliens(screen, settings, ship, aliens_grouplist):
     if random.random() <= settings.aliengroup_spawnchance or not len(aliens_grouplist):
         create_aliens(screen, settings, ship, aliens_grouplist)
 
-    auto_shooting(screen, settings, ship, bullets)
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
-
-        if event.type == pygame.KEYDOWN:
-            when_keydown(settings, ship, event)
-
-        if event.type == pygame.KEYUP:
-            when_keyup(settings, ship, event)
-
-
-def create_rain(screen, settings, rains):
-    if settings.currentrain_interval == settings.rain_interval:
-        rains.add(Rain(screen, settings))
-        settings.currentrain_interval = 0
-
-    settings.currentrain_interval += 1
-
-
-def move_background(screen, settings, bgimage):
-    screen.blit(bgimage.image, bgimage.rect)
-
-    if bgimage.rect.right < settings.width:
-        screen.blit(bgimage.image, (bgimage.rect.right, 0))
-
-
-def check_collisions(ship, bullets, rains, aliens_grouplist):
-    pygame.sprite.spritecollide(ship, rains, dokill=True, collided=pygame.sprite.collide_mask)
-
-    for group in aliens_grouplist:
-        pygame.sprite.groupcollide(bullets, group, True, True)
-        pygame.sprite.groupcollide(rains, group, True, False, collided=pygame.sprite.collide_mask)
-        if pygame.sprite.spritecollideany(ship, group, collided=pygame.sprite.collide_mask):
-            print("hit")
-
-
-def update_screen(screen, settings, ship, bullets, rains, bgimage, aliens_grouplist):
-    bgimage.scroll()
-    move_background(screen, settings, bgimage)
-
-    bullets.update()
-    ship.update()
-
-    check_collisions(ship, bullets, rains, aliens_grouplist)
-
-    for group in aliens_grouplist:
-        group.update()
-    for group in [group for group in aliens_grouplist if not len(group)]:
-        aliens_grouplist.remove(group)
-
-    create_rain(screen, settings, rains)
-    rains.update()
-
-    pygame.display.update()
+    for alien_group in aliens_grouplist.copy():
+        if len(alien_group) == 0:
+            aliens_grouplist.remove(alien_group)
+        else:
+            alien_group.update()
+# End alien functions

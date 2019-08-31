@@ -28,3 +28,10 @@ class BGImage:
         if self.rect.right < 0:
             self.left = 0
             self.rect.left = self.left
+
+    def update(self):
+        self.scroll()
+
+        self.screen.blit(self.image, self.rect)
+        if self.rect.right < self.settings.width:
+            self.screen.blit(self.image, (self.rect.right, 0))

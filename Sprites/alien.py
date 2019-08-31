@@ -41,6 +41,9 @@ class Alien(Sprite):
         self.ymove = aliengroup.ymove
         self.xmove = aliengroup.xmove
 
+    def blitme(self):
+        self.screen.blit(self.image, self.rect)
+
     def move(self):
         self.centery += self.ymove
         self.centerx += self.xmove
@@ -56,4 +59,4 @@ class Alien(Sprite):
     def update(self):
         self.move()
         self.check_inarea()
-        self.screen.blit(self.image, self.rect)
+        self.blitme()
