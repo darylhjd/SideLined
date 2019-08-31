@@ -22,11 +22,11 @@ class Settings:
         self.sb_width = 15
         self.sb_height = 3
         # Auto-shoot intervals
-        self.max_sb_interval = 7
+        self.max_sb_interval = 5
         self.sb_interval = 50
         self.currentsb_interval = 50
         # Bullet speed
-        self.sb_speed = 15
+        self.sb_speed = 17
 
         # Rain settings
         self.rainx_move = -20
@@ -39,11 +39,14 @@ class Settings:
         self.bgx_move = -0.8
 
         # Alien settings
-        self.aliengroup_spawnchance = 0.0007
+        self.aliengroup_spawnchance = 0.90 / self.sb_interval**1.8
 
         # Powerup settings
         self.powerup_spawnchance = 0.2
         self.pincrease_power = 1
+
+    def update_aliengroup_spawnchance(self):
+        self.aliengroup_spawnchance = 0.90 / self.sb_interval ** 1.8
 
 
 # Settings for AlienGroup

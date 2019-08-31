@@ -82,6 +82,7 @@ def check_powerup_collisions(settings, ship, powerups):
         powerups_collected = len(pygame.sprite.spritecollide(ship, powerups, dokill=True,
                                                              collided=pygame.sprite.collide_mask))
         settings.sb_interval -= powerups_collected * settings.pincrease_power
+        settings.update_aliengroup_spawnchance()
 
 
 def check_other_non_critical_collisions(ship, rains):
