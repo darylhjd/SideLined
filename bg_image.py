@@ -14,7 +14,7 @@ class BGImage:
         self.screen_rect = self.screen.get_rect()
 
         # Image
-        self.image = pygame.image.load(r"images/evengloomy.png").convert()
+        self.image = pygame.image.load(r"images/gloomy.png").convert_alpha()
         self.rect = self.image.get_rect()
         self.left = float(self.screen_rect.left)
 

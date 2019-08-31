@@ -29,7 +29,7 @@ class Alien(Sprite):
         self.screen_rect = self.screen.get_rect()
 
         # Image
-        self.image = pygame.transform.rotozoom(pygame.image.load(r"images/ufo.bmp"), 0, 0.08)
+        self.image = pygame.transform.rotozoom(pygame.image.load(r"images/ufo.bmp").convert_alpha(), 0, 0.08)
         self.mask = pygame.mask.from_surface(self.image)
 
         # Position alien

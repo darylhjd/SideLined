@@ -10,6 +10,7 @@ import pygame
 from Sprites.alien import Alien, AlienGroup
 from Sprites.bullet import Bullet
 from Sprites.rain import Rain
+from Sprites.powerups import PowerUp
 from settings import AlienGroupSettings
 
 
@@ -63,28 +64,29 @@ def check_ship_movement(settings, ship):
 
 
 # Check Collisions functions
-def create_powerups(alien_collisions, powerups):
-    pass
-
-
-def check_collisions(ship, bullets, rains, aliens_grouplist, powerups):
-    # Delete raindrops that hit the ship.
-    pygame.sprite.spritecollide(ship, rains, dokill=True, collided=pygame.sprite.collide_mask)
-
-    alien_collisions = {}
+def check_aliens_collisions(ship, bullets, rains, aliens_grouplist, alien_collisions):
     for group in aliens_grouplist:
-        # Detect collisions between bullets and aliens and delete them
-        aliengroup_collisions = pygame.sprite.groupcollide(bullets, group, True, True)
-        alien_collisions.update(aliengroup_collisions)
-
-        # Delete raindrops that hit aliens.
-        pygame.sprite.groupcollide(rains, group, True, False, collided=pygame.sprite.collide_mask)
-
         # Detecting collision between ship and any alien
         if pygame.sprite.spritecollideany(ship, group, collided=pygame.sprite.collide_mask):
             print("hit")
 
-    create_powerups(alien_collisions, powerups)
+        # Delete raindrops that hit aliens.
+        pygame.sprite.groupcollide(rains, group, True, False, collided=pygame.sprite.collide_mask)
+
+        # Detect collisions between bullets and aliens and delete them
+        alien_collisions.update(pygame.sprite.groupcollide(bullets, group, True, True))
+
+
+def check_powerup_collisions(settings, ship, powerups):
+    if settings.sb_interval > settings.max_sb_interval:
+        powerups_collected = len(pygame.sprite.spritecollide(ship, powerups, dokill=True,
+                                                             collided=pygame.sprite.collide_mask))
+        settings.sb_interval -= powerups_collected * settings.pincrease_power
+
+
+def check_other_non_critical_collisions(ship, rains):
+    # Delete raindrops that hit the ship.
+    pygame.sprite.spritecollide(ship, rains, dokill=True, collided=pygame.sprite.collide_mask)
 # End Collisions functions
 # END SECTION: Event checking
 # -----------------------------------------------------------------
@@ -96,6 +98,28 @@ def update_background(bgimage):
     bgimage.update()
 
 
+# Powerup functions
+def create_powerup(screen, settings, alien, powerups):
+    powerup = PowerUp(screen, settings, alien)
+    powerups.add(powerup)
+
+
+def create_powerups(screen, settings, alien_collisions, powerups):
+    # Key is the bullet, and the value is a list of aliens that the bullet hit
+    aliens_hit = [item for sublist in alien_collisions.values() for item in sublist]
+    alien_collisions.clear()
+
+    for alien in aliens_hit:
+        if random.random() <= settings.powerup_spawnchance:
+            create_powerup(screen, settings, alien, powerups)
+
+
+def update_powerups(screen, settings, alien_collisions, powerups):
+    create_powerups(screen, settings, alien_collisions, powerups)
+    powerups.update()
+# End Powerup functions
+
+
 def update_ship(ship):
     ship.update()
 
@@ -103,7 +127,7 @@ def update_ship(ship):
 # Bullet functions
 def auto_shooting(screen, settings, ship, bullets):
     if pygame.key.get_pressed()[pygame.K_z]:
-        if settings.currentsb_interval == settings.sb_interval:
+        if settings.currentsb_interval >= settings.sb_interval:
             bullets.add(Bullet(screen, settings, ship))
             settings.currentsb_interval = 0
 

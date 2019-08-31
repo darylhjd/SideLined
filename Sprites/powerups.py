@@ -20,10 +20,25 @@ class PowerUp(Sprite):
         self.alien_center = self.alien_rect.center
 
         # Image
-        self.image = pygame.transform.rotozoom(pygame.image.load(r"images/powerupbox.bmp").convert_alpha(), 0, 0.2)
+        self.image = pygame.transform.rotozoom(pygame.image.load(r"images/powerbox.bmp").convert_alpha(), 0, 0.1)
         self.mask = pygame.mask.from_surface(self.image)
 
         # Position powerup
         self.rect = self.image.get_rect()
-        self.center = float(self.alien_center)
-        self.rect.center = self.center
+        self.rect.center = self.alien_center
+        self.centerx = self.rect.centerx
+
+    def draw_powerup(self):
+        self.screen.blit(self.image, self.rect)
+
+    def move(self):
+        self.centerx += self.settings.bgx_move * 1.3
+
+        if self.centerx <= 0:
+            self.kill()
+
+        self.rect.centerx = self.centerx
+
+    def update(self):
+        self.move()
+        self.draw_powerup()
