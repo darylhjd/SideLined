@@ -45,6 +45,7 @@ def run_game():
         gf.update_rain(screen, settings, rains)
         gf.update_aliens(screen, settings, ship, aliens_grouplist)
 
+        print(ship.hb_rect.center, ship.rect.center)
         pygame.display.update()
         clock.tick(140)
 

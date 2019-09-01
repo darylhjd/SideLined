@@ -33,6 +33,7 @@ def ship_movement(ship, event, boolean):
 
 def when_keyup(settings, ship, event):
     if event.key == pygame.K_LSHIFT:
+        ship.show_hitbox = False
         ship.ymove *= settings.shipspeed_factor
         ship.xmove *= settings.shipspeed_factor
 
@@ -44,6 +45,7 @@ def when_keydown(settings, ship, event):
         sys.exit()
 
     if event.key == pygame.K_LSHIFT:
+        ship.show_hitbox = True
         ship.ymove /= settings.shipspeed_factor
         ship.xmove /= settings.shipspeed_factor
 
@@ -68,7 +70,7 @@ def check_aliens_collisions(ship, bullets, rains, aliens_grouplist, alien_collis
     for group in aliens_grouplist:
         # Detecting collision between ship and any alien
         if pygame.sprite.spritecollideany(ship, group, collided=pygame.sprite.collide_mask):
-            print("hit")
+            print('hit')
 
         # Delete raindrops that hit aliens.
         pygame.sprite.groupcollide(rains, group, True, False, collided=pygame.sprite.collide_mask)
