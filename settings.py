@@ -32,7 +32,7 @@ class Settings:
         self.rainx_move = -20
         self.rainy_move = 20
         # Creation intervals
-        self.rain_interval = 7
+        self.rain_interval = 6
         self.currentrain_interval = 0
 
         # BGImage settings

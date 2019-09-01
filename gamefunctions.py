@@ -168,7 +168,7 @@ def spawn_aliengroup(screen, aliens_grouplist, agsettings, aliengroup):
 
 
 def decide_secondary(start, parameter):
-    return random.choice([-1, 1]) if parameter/3 < start < 2/3 * parameter else 0
+    return random.choice([-1, 0, 1]) if parameter/3 < start < 2/3 * parameter else 0
 
 
 def create_aliens(screen, settings, ship, aliens_grouplist):
