@@ -31,43 +31,47 @@ def ship_movement(ship, event, boolean):
         ship.move_right = boolean
 
 
-def when_keyup(settings, ship, event):
+def when_keyup(settings, ship, ship_hitbox, event):
     if event.key == pygame.K_LSHIFT:
+        ship_hitbox.show_box = False
         ship.ymove *= settings.shipspeed_factor
         ship.xmove *= settings.shipspeed_factor
 
     ship_movement(ship, event, False)
 
 
-def when_keydown(settings, ship, event):
+def when_keydown(settings, ship, ship_hitbox, event):
     if event.key == pygame.K_q:
         sys.exit()
 
     if event.key == pygame.K_LSHIFT:
+        ship_hitbox.show_box = True
         ship.ymove /= settings.shipspeed_factor
         ship.xmove /= settings.shipspeed_factor
 
     ship_movement(ship, event, True)
 
 
-def check_ship_movement(settings, ship):
+def check_ship_movement(settings, ship, ship_hitbox):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
 
         if event.type == pygame.KEYDOWN:
-            when_keydown(settings, ship, event)
+            when_keydown(settings, ship, ship_hitbox, event)
 
         if event.type == pygame.KEYUP:
-            when_keyup(settings, ship, event)
+            when_keyup(settings, ship, ship_hitbox, event)
 # End Ship functions
 
 
 # Check Collisions functions
-def check_aliens_collisions(ship, bullets, rains, aliens_grouplist, alien_collisions):
+def check_aliens_collisions(ship, ship_hitbox, bullets, rains, aliens_grouplist, alien_collisions):
+    to_collide = ship_hitbox if ship_hitbox else ship
+
     for group in aliens_grouplist:
         # Detecting collision between ship and any alien
-        if pygame.sprite.spritecollideany(ship, group, collided=pygame.sprite.collide_mask):
+        if pygame.sprite.spritecollideany(to_collide, group, collided=pygame.sprite.collide_mask):
             print("hit")
 
         # Delete raindrops that hit aliens.
@@ -121,8 +125,9 @@ def update_powerups(screen, settings, alien_collisions, powerups):
 # End Powerup functions
 
 
-def update_ship(ship):
+def update_ship(ship, ship_hitbox):
     ship.update()
+    ship_hitbox.update(ship)
 
 
 # Bullet functions
