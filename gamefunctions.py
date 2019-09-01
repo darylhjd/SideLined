@@ -67,7 +67,7 @@ def check_ship_movement(settings, ship, ship_hitbox):
 
 # Check Collisions functions
 def check_aliens_collisions(ship, ship_hitbox, bullets, rains, aliens_grouplist, alien_collisions):
-    to_collide = ship_hitbox if ship_hitbox else ship
+    to_collide = ship_hitbox if ship_hitbox.show_box else ship
 
     for group in aliens_grouplist:
         # Detecting collision between ship and any alien
