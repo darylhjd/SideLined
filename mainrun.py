@@ -7,7 +7,7 @@ from pygame import DOUBLEBUF, HWSURFACE
 from pygame.sprite import Group
 
 import gamefunctions as gf
-from Sprites.ship import Ship
+from Sprites.ship import Ship, ShipHitBox
 from bg_image import BGImage
 from settings import Settings
 
@@ -19,6 +19,7 @@ def run_game():
     screen = pygame.display.set_mode(settings.screen_dimensions, DOUBLEBUF | HWSURFACE)
     pygame.display.set_caption("SideLined: On Your Own...")
     ship = Ship(screen, settings)
+    ship_hitbox = ShipHitBox(screen, ship)
 
     bullets = Group()
     rains = Group()
@@ -32,15 +33,15 @@ def run_game():
 
     while True:
         # Check events
-        gf.check_ship_movement(settings, ship)
-        gf.check_aliens_collisions(ship, bullets, rains, aliens_grouplist, alien_collisions)
+        gf.check_ship_movement(settings, ship, ship_hitbox)
+        gf.check_aliens_collisions(ship, ship_hitbox, bullets, rains, aliens_grouplist, alien_collisions)
         gf.check_powerup_collisions(settings, ship, powerups)
         gf.check_other_non_critical_collisions(ship, rains)
 
         # Update objects
         gf.update_background(bgimage)
         gf.update_powerups(screen, settings, alien_collisions, powerups)
-        gf.update_ship(ship)
+        gf.update_ship(ship, ship_hitbox)
         gf.update_bullets(screen, settings, ship, bullets)
         gf.update_rain(screen, settings, rains)
         gf.update_aliens(screen, settings, ship, aliens_grouplist)

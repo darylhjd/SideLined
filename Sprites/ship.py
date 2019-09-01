@@ -54,3 +54,39 @@ class Ship:
     def update(self):
         self.move()
         self.blitme()
+
+
+class ShipHitBox:
+    def __init__(self, screen, ship):
+        # Screen settings
+        self.screen = screen
+
+        # Ship settings
+        self.ship = ship
+
+        # Image
+        self.image = pygame.transform.rotozoom(pygame.image.load(r"images/better_hitbox.bmp").convert_alpha(),
+                                               0, 0.015)
+        self.mask = pygame.mask.from_surface(self.image)
+
+        # Position hitbox
+        self.rect = self.image.get_rect()
+        self.centerx = float(self.ship.centerx + 17)
+        self.centery = float(self.ship.centery)
+
+        # Flags
+        self.show_box = False
+
+    def update_position(self, ship):
+        self.centerx = float(ship.centerx + 17)
+        self.centery = float(ship.centery)
+        self.rect.centerx = self.centerx
+        self.rect.centery = self.centery
+
+    def blitme(self):
+        self.screen.blit(self.image, self.rect)
+
+    def update(self, ship):
+        self.update_position(ship)
+        if self.show_box:
+            self.blitme()
